@@ -63,7 +63,8 @@ Nenhum teste toca pastas reais do usuário (todos usam `tempfile`). Correções 
 | Artefato | Caminho | Tamanho |
 |---|---|---|
 | Executável | `src-tauri\target\release\cleanwin.exe` | ≈ 4,1 MB |
-| Instalador NSIS (por usuário, pt-BR/en) | `src-tauri	argeteleaseundle
+| Instalador NSIS (por usuário, pt-BR/en) | `src-tauri	arget
+eleaseundle
 sis\CleanWin_0.1.0_x64-setup.exe` — **não versionado** (asset do CI na Release; ver pendência 1) | 4,45 MiB |
 
 Perfil release: LTO, `opt-level = "s"`, `strip`, `panic = "abort"`. Instalador não assinado (SmartScreen avisa).
@@ -73,7 +74,7 @@ Perfil release: LTO, `opt-level = "s"`, `strip`, `panic = "abort"`. Instalador n
 1. **Temperatura de CPU**: depende de sensores WMI, normalmente ausentes sem elevação → "Não disponível". Roadmap v0.2: integração opcional com LibreHardwareMonitor.
 2. **Temperatura de GPU**: só NVIDIA (NVML). AMD/Intel → "Não disponível".
 3. **`C:\Windows\Temp` e `ProgramData\…\WER`**: scan parcial sem administrador (`partial: true` na UI). O app não eleva.
-4. **Assinatura de código** ausente; **auto‑update** ausente (link para releases).
+4. **Assinatura de código** ausente; **auto‑update** ausente (link para releases). **Bloqueador observado em 04/nov/2026:** o Windows Defender classificou o instalador e o `cleanwin.exe` como `Trojan:Win32/Bearfoos!ml` (falso positivo heurístico para binários não assinados) e os colocou em quarentena nesta máquina, inclusive o app instalado. Enquanto não houver assinatura (spec v0.2, P1), usuários podem ter o download bloqueado; o `.exe` deixou de ser versionado e a Release documenta o aviso.
 5. **Mockup vs. app**: sem logo do Windows no rail (marca de terceiros); ícones de processo genéricos (lucide); limiares do disco usam três cores com rótulo.
 6. **Assets de referência** (`public/assets/references/*.png`, 3,3 MB) entram no bundle por estarem em `public/`; mover para `docs/` reduziria o instalador (decisão do mantenedor, pois a pasta foi fornecida como está).
 7. Ações destrutivas (limpar, esvaziar Lixeira) foram validadas por testes isolados e pela UI até a confirmação; não foram executadas contra os dados reais desta máquina. Clique no menu da bandeja não automatizado.
