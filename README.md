@@ -24,6 +24,17 @@ Contexto de produto (o "porquê"): [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md).
 
 ---
 
+<div align="center">
+
+**[⬇️ Baixar CleanWin 0.1.0 para Windows (x64)](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.0_x64-setup.exe)**
+
+ou veja todas as versões em [Releases](https://github.com/Victorkaue333/cleanwin/releases)
+
+[![Release](https://img.shields.io/github/v/release/Victorkaue333/cleanwin?label=release&color=FF7417)](https://github.com/Victorkaue333/cleanwin/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Victorkaue333/cleanwin/total?color=46E36B)](https://github.com/Victorkaue333/cleanwin/releases)
+
+</div>
+
 ## 🧭 Visão geral
 
 A visão de produto está em [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) e os requisitos em [`docs/PRD.md`](docs/PRD.md) — leia para entender o "porquê" por trás do que foi construído. O que vem a seguir é o resumo das decisões de arquitetura, stack e segurança tomadas em 04/nov/2026; o que **de fato** entrou está no [`CHANGELOG`](docs/CHANGELOG.md).
@@ -71,9 +82,9 @@ Mais capturas e regras em [`docs/assets/screenshots/`](docs/assets/screenshots/)
 
 | Arquivo | Versão | Plataforma | Observação |
 |---|---|---|---|
-| [`release/CleanWin_0.1.0_x64-setup.exe`](release/CleanWin_0.1.0_x64-setup.exe) | 0.1.0 | Windows 10/11 x64 | Instalador NSIS por usuário (sem UAC); SHA-256 em [`release/SHA256SUMS.txt`](release/SHA256SUMS.txt) |
+| [**Baixar `CleanWin_0.1.0_x64-setup.exe` (GitHub Releases)**](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.0_x64-setup.exe) | 0.1.0 | Windows 10/11 x64 | Download com um clique (principal); instalador NSIS por usuário (sem UAC); SHA-256 em `SHA256SUMS.txt` na Release |
 
-O instalador ainda **não é assinado**: o SmartScreen mostra "editor desconhecido" na primeira execução (Mais informações → Executar assim mesmo). Ao publicar uma tag `v*`, o workflow de CI anexa o mesmo instalador à página de [Releases](https://github.com/Victorkaue333/cleanwin/releases).
+O instalador ainda **não é assinado**: o SmartScreen mostra "editor desconhecido" na primeira execução (Mais informações → Executar assim mesmo) e o **Windows Defender pode acusar um falso positivo** (`Trojan:Win32/Bearfoos!ml`, heurística para binários não assinados) — confira o SHA-256 no `SHA256SUMS.txt` da release e, se quiser, libere em Segurança do Windows › Histórico de proteção. A assinatura de código está planejada para a v0.2 ([`docs/spec/implementacao-v0.2.md`](docs/spec/implementacao-v0.2.md), P1). Ao publicar uma tag `v*`, o workflow de CI anexa o mesmo instalador à página de [Releases](https://github.com/Victorkaue333/cleanwin/releases).
 
 ---
 

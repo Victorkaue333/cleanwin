@@ -47,8 +47,20 @@ Passos por release:
 2. **Registrar no [`CHANGELOG.md`](CHANGELOG.md)** (seção da versão com data).
 3. **Abrir PR** → CI verde (inclui o `tauri build`).
 4. **Mergear em `main`** e criar a tag `vX.Y.Z`.
-5. **Baixar o artifact** do CI (ou rodar `pnpm tauri build` numa máquina limpa) e **anexar** `CleanWin_X.Y.Z_x64-setup.exe` à GitHub Release com as notas do changelog.
+5. O CI anexa `CleanWin_X.Y.Z_x64-setup.exe` e `SHA256SUMS.txt` à GitHub Release com as notas do changelog.
 6. **Verificar** o instalador numa VM limpa: instala sem UAC, abre, bandeja funciona, desinstala limpo.
+
+## Publicar uma release (passo a passo)
+
+Não é necessário o `gh` CLI: publicar é `git push` da branch e da tag; o CI cria a Release.
+
+1. Conferir `git status` limpo e a versão igual em `package.json`, `src-tauri/Cargo.toml` e `src-tauri/tauri.conf.json`.
+2. Atualizar `release/RELEASE_NOTES.md` e `docs/CHANGELOG.md`.
+3. A tag local `v0.1.0` já existe para a primeira versão. Para as próximas: `git tag -a vX.Y.Z -m "CleanWin vX.Y.Z"`.
+4. `git push origin main` e `git push origin vX.Y.Z`.
+5. O CI (`.github/workflows/ci.yml`) roda typecheck/lint/testes/clippy, faz `pnpm tauri build`, gera `SHA256SUMS.txt` e cria a Release com o instalador anexado.
+6. Conferir em `https://github.com/Victorkaue333/cleanwin/releases/latest` que o `.exe` e o `SHA256SUMS.txt` estão anexados e que o link `releases/latest/download/<arquivo>` baixa.
+7. Se o build falhar, a Release não é criada: corrigir, apagar a tag (`git tag -d vX.Y.Z` + `git push origin :refs/tags/vX.Y.Z`) e repetir.
 
 ## Configuração do bundle (`src-tauri/tauri.conf.json`)
 
@@ -64,6 +76,10 @@ Passos por release:
 | `app.security.csp` | `default-src 'self'` (+ `style-src 'unsafe-inline'`, `img-src data: blob:`) | Sem script remoto |
 
 **Perfil de release (`Cargo.toml`):** `opt-level = "s"`, `lto = true`, `codegen-units = 1`, `strip = true`, `panic = "abort"`.
+
+## Falso positivo do Windows Defender
+
+Binários Tauri/Rust **não assinados** disparam a heurística `Trojan:Win32/Bearfoos!ml` em alguns PCs (observado em 04/nov/2026 nesta máquina: instalador e `cleanwin.exe` em quarentena). Por isso o instalador **não é versionado** no repositório (`release/*.exe` ignorado): só existe como asset gerado pelo CI. Mitigação definitiva: assinatura de código (abaixo). Paliativo: enviar o `.exe` como falso positivo em https://www.microsoft.com/wdsi/filesubmission e documentar na release.
 
 ## Assinatura de código (pendente — B1)
 
