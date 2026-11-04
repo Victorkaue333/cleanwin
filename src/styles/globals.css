@@ -1,0 +1,160 @@
+@import "tailwindcss";
+/* Single source of truth for colours: public/assets/design-tokens/tokens.css */
+@import "../../public/assets/design-tokens/tokens.css";
+
+@theme inline {
+  --color-bg: var(--cw-background);
+  --color-surface: var(--cw-surface);
+  --color-primary: var(--cw-primary);
+  --color-success: var(--cw-success);
+  --color-warning: var(--cw-warning);
+  --color-danger: var(--cw-danger);
+  --color-text: var(--cw-text);
+  --color-muted: var(--cw-textMuted);
+  --color-border: var(--cw-border);
+
+  /* Derived (never arbitrary): mixes of the official tokens */
+  --color-surface-raised: color-mix(in srgb, var(--cw-surface) 90%, var(--cw-text) 10%);
+  --color-surface-hover: color-mix(in srgb, var(--cw-surface) 94%, var(--cw-text) 6%);
+  --color-track: color-mix(in srgb, var(--cw-surface) 70%, var(--cw-border) 30%);
+  --color-primary-hover: color-mix(in srgb, var(--cw-primary) 88%, var(--cw-text) 12%);
+  --color-primary-soft: color-mix(in srgb, var(--cw-primary) 16%, transparent);
+  --color-success-soft: color-mix(in srgb, var(--cw-success) 16%, transparent);
+  --color-warning-soft: color-mix(in srgb, var(--cw-warning) 16%, transparent);
+  --color-danger-soft: color-mix(in srgb, var(--cw-danger) 16%, transparent);
+
+  --font-sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+  --radius-card: 0.875rem;
+  --radius-chip: 0.625rem;
+  --radius-button: 0.625rem;
+
+  --shadow-card: 0 1px 0 color-mix(in srgb, var(--cw-text) 3%, transparent) inset;
+  --shadow-cta: 0 8px 24px color-mix(in srgb, var(--cw-primary) 35%, transparent);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    font-size: 14px;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  ::selection {
+    background: var(--color-primary-soft);
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  [data-reduce-motion="true"] *,
+  [data-reduce-motion="true"] *::before,
+  [data-reduce-motion="true"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes cw-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes cw-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cw-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
