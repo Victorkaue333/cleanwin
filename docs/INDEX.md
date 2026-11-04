@@ -74,6 +74,7 @@ Os canônicos resumem e linkam o detalhamento das subpastas abaixo.
 - [`development/testing.md`](development/testing.md) — estratégia (Rust com `tempfile`, Vitest + jsdom), testes que dependem do Windows, regras
 - [`development/build.md`](development/build.md) — build de produção, instalador, versão, assinatura, CI
 - [`qa/implementation-report.md`](qa/implementation-report.md) — relatório de implementação e validação da v0.1.0 (escrito ao fim da entrega)
+- [`spec/implementacao-v0.2.md`](spec/implementacao-v0.2.md) — spec de implementação das pendências (v0.2): fases, escopo, aceite, esforço e modelo por item
 
 ### Identidade visual (fora de `docs/`)
 
