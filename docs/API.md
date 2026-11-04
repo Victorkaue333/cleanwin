@@ -2,7 +2,7 @@
 
 > Camada **autoritativa e concisa** do contrato entre interface e núcleo. Documenta o que o Rust expõe (comandos, eventos, canais), refletindo o **código real** (`src-tauri/src/commands/mod.rs`, `src-tauri/src/lib.rs`, `src-tauri/src/models/mod.rs`). Campo a campo: [`api/tauri-commands.md`](api/tauri-commands.md) · [`api/events.md`](api/events.md).
 > Fontes: [`ARCHITECTURE.md`](ARCHITECTURE.md) · [`DATABASE.md`](DATABASE.md) · [`PRD.md`](PRD.md) · [`../CLAUDE.md`](../CLAUDE.md).
-> Última atualização: 04/nov/2026 · Verificado contra o código-fonte (24 comandos registrados em `generate_handler!`).
+> Última atualização: 04/nov/2026 · Verificado contra o código-fonte (26 comandos registrados em `generate_handler!`).
 
 ## Visão geral
 
@@ -102,6 +102,8 @@ Categorias: `user_temp` · `windows_temp` (parcial sem admin) · `browser_cache`
 | `get_settings()` → `Settings` | — | Cópia em memória de `settings.json` |
 | `update_settings({ settings })` → `Settings` | — | Sanitiza, persiste atomicamente, aplica intervalo, autostart (só quando o flag muda; rollback + `internal` se falhar) e modo de janela |
 | `get_autostart_enabled()` → `boolean` | — | Estado real da entrada `HKCU\…\Run` |
+| `get_tray_icon_promoted()` → `boolean \| null` | — | Lê `IsPromoted` de `HKCU\Control Panel\NotifyIconSettings\<id>` (entrada cujo `ExecutablePath` é este exe). `null` = o Explorer ainda não registrou o ícone. Erros: `unsupported` (fora do Windows), `permission_denied`, `internal` |
+| `set_tray_icon_promoted({ enabled })` → `boolean` | — | `enabled` grava `IsPromoted=1`; desligar remove o valor. Relê e devolve o estado real; persiste `trayIconPromoted` em `settings.json`. Erros: `not_found` (entrada ainda não registrada — repetir em instantes), `unsupported`, `permission_denied`, `internal` |
 
 #### Exemplo detalhado — `scan_cleanup` + `clean_files`
 

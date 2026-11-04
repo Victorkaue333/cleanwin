@@ -292,7 +292,22 @@ export const enUS: Dictionary = {
     defaultCategories: "Pre-selected categories",
     saved: "Settings saved.",
     autostartMismatch: "The startup entry was changed outside CleanWin.",
+    trayIconPromoted: "Always show icon in the tray",
+    trayIconPromotedDesc:
+      "On Windows 11, new icons are hidden in the ^ menu. This option pins CleanWin to the tray (a Windows preference, for your user only).",
+    trayIconPending: "Available once the icon appears in the tray",
     seconds: "{value} s",
+  },
+  onboarding: {
+    title: "Keep CleanWin at hand",
+    description: "Choose how CleanWin stays available. You can change this later in Settings.",
+    trayIcon: "Always show the icon in the Windows tray",
+    autostart: "Start with Windows, minimized to the tray",
+    apply: "Apply",
+    skip: "Not now",
+    trayLater: "Could not pin the icon right now",
+    trayLaterDesc: "You can enable this option later in Settings.",
+    saveFailed: "Could not save your choice",
   },
   about: {
     title: "About",

@@ -18,6 +18,7 @@
 |---|---|---|
 | **F1 — Higiene (sem dependências)** | P3 assets de referência fora do bundle · P9 avisos de lint · P10 ícones reais dos processos · P4 capturas pendentes · P7 checklist de autostart/bandeja | nenhuma |
 | **F2 — Release** | P1 assinatura de código · P2 auto-update | certificado + par de chaves do mantenedor |
+| **Extra — concluído** | P11 · Ícone sempre visível na bandeja + diálogo de primeira execução — concluído em 04/nov/2026 | nenhuma |
 | **F3 — Funcionalidades** | P5 modo elevado por sessão + categorias que exigem admin · P6 temperatura de CPU via LibreHardwareMonitor | nenhuma (P6 depende de app de terceiros em execução) |
 
 Ordem recomendada: P3 → P9 → P10 → P4 → P7 → P5 → P6 → P1 → P2. F2 só quando o mantenedor entregar certificado e chaves.
@@ -147,6 +148,7 @@ Ordem recomendada: P3 → P9 → P10 → P4 → P7 → P5 → P6 → P1 → P2. 
 | P5 | roadmap v0.2, relatório F.3 | security, PRD (RF novos), API (comandos), DECISIONS |
 | P6 | relatório F.2 | native-backend, PRD RF-17, DECISIONS |
 | P9, P10 | agente de frontend (diferenças vs mockup) | DESIGN §componentes |
+| P11 | feedback de uso (Windows 11 esconde o ícone no "^") — concluído em 04/nov/2026 | API, tauri-commands, DECISIONS (ADR-20), security, CHANGELOG, PRD RF-13, DATABASE |
 
 ## 3. Fora desta spec
 

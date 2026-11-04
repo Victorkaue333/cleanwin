@@ -6,3 +6,4 @@ pub mod metrics;
 pub mod power;
 pub mod processes;
 pub mod recycle_bin;
+pub mod tray_icon_settings;

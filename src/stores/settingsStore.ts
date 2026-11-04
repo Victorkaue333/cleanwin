@@ -18,6 +18,8 @@ export const DEFAULT_SETTINGS: Settings = {
     recentHours: 24,
     defaultCategories: ["user_temp", "windows_temp", "crash_reports", "shader_cache"],
   },
+  trayIconPromoted: null,
+  onboardingShown: false,
 };
 
 export type SettingsPatch = Partial<Omit<Settings, "cleaning">> & {

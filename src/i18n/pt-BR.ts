@@ -274,6 +274,10 @@ export const ptBR = {
     refreshIntervalDesc: "Com a janela oculta o intervalo passa para 5 s automaticamente.",
     showTrayMetrics: "Mostrar CPU e RAM na bandeja",
     window: "Janela",
+    trayIconPromoted: "Ícone sempre visível na bandeja",
+    trayIconPromotedDesc:
+      "No Windows 11, ícones novos ficam escondidos no menu ^. Esta opção fixa o CleanWin na bandeja (preferência do Windows, só para o seu usuário).",
+    trayIconPending: "Disponível após o ícone aparecer na bandeja",
     closeBehavior: "Ao fechar a janela",
     closeMinimize: "Ocultar na bandeja",
     closeExit: "Encerrar o CleanWin",
@@ -292,6 +296,18 @@ export const ptBR = {
     saved: "Configurações salvas.",
     autostartMismatch: "A entrada de inicialização foi alterada fora do CleanWin.",
     seconds: "{value} s",
+  },
+  onboarding: {
+    title: "Deixe o CleanWin sempre à mão",
+    description:
+      "Escolha como o CleanWin fica disponível. Você pode mudar isso depois em Configurações.",
+    trayIcon: "Mostrar o ícone sempre na bandeja do Windows",
+    autostart: "Iniciar com o Windows, minimizado na bandeja",
+    apply: "Aplicar",
+    skip: "Agora não",
+    trayLater: "Não foi possível fixar o ícone agora",
+    trayLaterDesc: "Você pode ativar essa opção depois em Configurações.",
+    saveFailed: "Não foi possível salvar a escolha",
   },
   about: {
     title: "Sobre",

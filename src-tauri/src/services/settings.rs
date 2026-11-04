@@ -72,6 +72,10 @@ pub struct Settings {
     pub show_tray_metrics: bool,
     pub reduce_motion: bool,
     pub cleaning: CleaningSettings,
+    /// Tray icon pinned via `NotifyIconSettings`; `None` = the user never chose.
+    pub tray_icon_promoted: Option<bool>,
+    /// The first-run dialog has been answered (either button).
+    pub onboarding_shown: bool,
 }
 
 impl Default for Settings {
@@ -86,6 +90,8 @@ impl Default for Settings {
             show_tray_metrics: true,
             reduce_motion: false,
             cleaning: CleaningSettings::default(),
+            tray_icon_promoted: None,
+            onboarding_shown: false,
         }
     }
 }
@@ -285,5 +291,18 @@ mod tests {
         assert!(json.contains("\"launchAtStartup\""));
         assert!(json.contains("\"closeBehavior\":\"minimize_to_tray\""));
         assert!(json.contains("\"viewMode\":\"compact\""));
+        assert!(json.contains("\"trayIconPromoted\":null"));
+        assert!(json.contains("\"onboardingShown\":false"));
+    }
+
+    #[test]
+    fn onboarding_fields_default_when_missing() {
+        let s: Settings = serde_json::from_str(r#"{"launchAtStartup": true}"#).unwrap();
+        assert_eq!(s.tray_icon_promoted, None);
+        assert!(!s.onboarding_shown);
+        let s: Settings =
+            serde_json::from_str(r#"{"trayIconPromoted": true, "onboardingShown": true}"#).unwrap();
+        assert_eq!(s.tray_icon_promoted, Some(true));
+        assert!(s.onboarding_shown);
     }
 }

@@ -72,8 +72,10 @@ Only one scan or clean runs at a time (`busy` otherwise).
 | `get_settings` | — | `Settings` | |
 | `update_settings` | `settings: Settings` | `Settings` (sanitised) | Persists atomically, applies the refresh interval, autostart (HKCU Run entry with `--minimized`, only when the flag changes) and the view mode. If the autostart change fails the flag is rolled back and the command rejects. |
 | `get_autostart_enabled` | — | `boolean` | Real state of the autostart entry. |
+| `get_tray_icon_promoted` | — | `boolean \| null` | Reads `IsPromoted` under `HKCU\Control Panel\NotifyIconSettings\<id>` for this exe. `null` while Explorer has not registered the tray icon yet. Errors: `unsupported` (non-Windows), `permission_denied`, `internal`. |
+| `set_tray_icon_promoted` | `enabled: boolean` | `boolean` | Pins (`IsPromoted=1`) or unpins (value deleted) the tray icon, re-reads and returns the real state, and stores `trayIconPromoted` in `settings.json`. Errors: `not_found` (entry not registered yet; retry shortly), `unsupported`, `permission_denied`, `internal`. |
 
-`Settings`: `launchAtStartup`, `startMinimized`, `refreshIntervalMs` (500–10000), `closeBehavior` (`minimize_to_tray` / `exit`), `viewMode`, `language` (`pt-BR` / `en-US`), `showTrayMetrics`, `reduceMotion`, `cleaning` (`skipRecentFiles`, `recentHours`, `defaultCategories[]`).
+`Settings`: `launchAtStartup`, `startMinimized`, `refreshIntervalMs` (500–10000), `closeBehavior` (`minimize_to_tray` / `exit`), `viewMode`, `language` (`pt-BR` / `en-US`), `showTrayMetrics`, `reduceMotion`, `cleaning` (`skipRecentFiles`, `recentHours`, `defaultCategories[]`), `trayIconPromoted` (`boolean | null`, `null` = never chosen), `onboardingShown` (`boolean`).
 
 ## Errors
 

@@ -34,6 +34,8 @@ erDiagram
     string language "pt-BR | en-US"
     bool showTrayMetrics "default true"
     bool reduceMotion "default false"
+    bool_or_null trayIconPromoted "default null = nunca escolhido"
+    bool onboardingShown "default false"
   }
   CLEANING_SETTINGS {
     bool skipRecentFiles "default true"
@@ -78,6 +80,8 @@ erDiagram
   "language": "pt-BR",
   "showTrayMetrics": true,
   "reduceMotion": false,
+  "trayIconPromoted": null,
+  "onboardingShown": false,
   "cleaning": {
     "skipRecentFiles": true,
     "recentHours": 24,

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppShell } from "@/components/layout/AppShell";
+import { OnboardingDialog } from "@/components/shared/OnboardingDialog";
 import { Toaster } from "@/components/ui/Toaster";
 import { CleaningPage } from "@/features/cleaning/CleaningPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
@@ -10,6 +11,7 @@ import { AboutPage } from "@/features/settings/AboutPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
 import { UtilitiesPage } from "@/features/utilities/UtilitiesPage";
 import { useMetricsEvents } from "@/hooks/useMetricsEvents";
+import { shouldShowOnboarding } from "@/lib/onboarding";
 import * as ipc from "@/services/ipc";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { isPageId, useUiStore } from "@/stores/uiStore";
@@ -25,6 +27,7 @@ export default function App() {
   const setPage = useUiStore((s) => s.setPage);
   const setAppInfo = useUiStore((s) => s.setAppInfo);
   const readySent = useRef(false);
+  const [windowVisible, setWindowVisible] = useState(false);
 
   useMetricsEvents();
 
@@ -42,7 +45,12 @@ export default function App() {
         .catch(() => undefined);
       if (!readySent.current) {
         readySent.current = true;
-        ipc.frontendReady().catch(() => undefined);
+        ipc
+          .frontendReady()
+          .then((visible) => {
+            if (!disposed) setWindowVisible(visible);
+          })
+          .catch(() => undefined);
       }
     })();
     ipc
@@ -94,6 +102,11 @@ export default function App() {
           {page === "about" && <AboutPage />}
         </div>
       </AppShell>
+      {shouldShowOnboarding({
+        settingsLoaded,
+        onboardingShown: settings.onboardingShown,
+        windowVisible,
+      }) && <OnboardingDialog />}
       <Toaster />
     </>
   );

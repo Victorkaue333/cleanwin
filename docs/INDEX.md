@@ -36,7 +36,7 @@ Camada fina e autoritativa. Raiz: [`../README.md`](../README.md) · [`../PROJECT
 
 - [`PRD.md`](PRD.md) — requisitos do produto (resume + aponta `project-context/`)
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — arquitetura e decisões estruturais
-- [`API.md`](API.md) — contrato IPC (24 comandos, 3 eventos, 2 canais)
+- [`API.md`](API.md) — contrato IPC (26 comandos, 3 eventos, 2 canais)
 - [`DATABASE.md`](DATABASE.md) — persistência local: `settings.json`, logs, sessão de scan em memória
 - [`DEPLOY.md`](DEPLOY.md) — `pnpm tauri build`, NSIS por usuário, GitHub Releases, assinatura pendente
 - [`ENVIRONMENT.md`](ENVIRONMENT.md) — sem `.env`; variáveis de build e caminhos de runtime

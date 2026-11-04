@@ -129,7 +129,7 @@ Persistência local — %APPDATA%\com.cleanwin.desktop\settings.json (JSON atôm
 
 | De → Para                           | Protocolo / mecanismo                                                                                                   |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **React → Rust (comandos)**         | `invoke("<comando>", { args })` do `@tauri-apps/api/core`; 24 comandos, todos em [`docs/API.md`](docs/API.md)            |
+| **React → Rust (comandos)**         | `invoke("<comando>", { args })` do `@tauri-apps/api/core`; 26 comandos, todos em [`docs/API.md`](docs/API.md)            |
 | **Rust → React (métricas)**         | Evento `metrics:update` com o `SystemSnapshot` a cada intervalo (500–10 000 ms); **a UI não faz polling**                |
 | **Rust → React (progresso)**        | `Channel<ScanEvent>` / `Channel<CleanEvent>` por chamada (scan e limpeza), nunca evento global                            |
 | **Rust → React (navegação)**        | Evento `navigate` (bandeja → "Escanear lixo")                                                                            |
@@ -148,7 +148,7 @@ Persistência local — %APPDATA%\com.cleanwin.desktop\settings.json (JSON atôm
 ```mermaid
 flowchart TD
     U(["Usuário"]) --> UI["Interface · React 19 + TypeScript<br/>WebView2 · painel compacto / janela completa"]
-    UI -->|"invoke (24 comandos)"| CORE["Núcleo Rust · Tauri 2<br/>commands · services · system"]
+    UI -->|"invoke (26 comandos)"| CORE["Núcleo Rust · Tauri 2<br/>commands · services · system"]
     CORE -->|"metrics:update · navigate · Channel"| UI
     CORE --> LOOP["Thread de métricas<br/>sysinfo + Win32"]
     CORE --> CLEAN["Cleaner<br/>catálogo fixo · sessão de scan"]
@@ -213,7 +213,7 @@ cleanwin/
 │   ├── lib/                     # format · thresholds · history · processes · errors · cn
 │   └── types/ipc.ts             # espelho TS dos DTOs do Rust
 ├── src-tauri/                   # núcleo Rust
-│   ├── src/commands/            # os 24 comandos IPC
+│   ├── src/commands/            # os 26 comandos IPC
 │   ├── src/services/            # settings · metrics_loop · tray · window
 │   ├── src/system/              # metrics · processes · cleaner · recycle_bin · power · desktop
 │   ├── capabilities/            # permissões da janela main
@@ -373,7 +373,7 @@ Detalhes em [`docs/DEPLOY.md`](docs/DEPLOY.md).
 - **Menor privilégio:** roda como o usuário; instalador por usuário; nunca eleva. Pastas que exigem admin (`C:\Windows\Temp`, `ProgramData\…\WER`) são analisadas parcialmente e marcadas como parciais.
 - **Limpeza:** catálogo fixo de raízes validado por `is_safe_root` (nunca raiz de unidade, perfil, `Windows`, `System32`, `Program Files`, pastas pessoais); sem seguir junções/symlinks; scan ≠ exclusão; cada arquivo revalidado antes do `remove_file`; arquivos em uso são reportados, nunca forçados; arquivos modificados nas últimas 24 h são pulados por padrão.
 - **Processos:** confirmação na UI **e** recusa no Rust para PID 0/4, o próprio CleanWin e processos críticos (`csrss`, `wininit`, `winlogon`, `services`, `lsass`, `svchost`, `dwm`, `smss`, `Memory Compression`, `Registry`, …).
-- **IPC:** só os 24 comandos documentados; CSP `default-src 'self'`; `open_external` só `http(s)`; `reveal_path` só para caminhos que o próprio app reportou.
+- **IPC:** só os 26 comandos documentados; CSP `default-src 'self'`; `open_external` só `http(s)`; `reveal_path` só para caminhos que o próprio app reportou.
 - **Registro:** a única escrita é a entrada de autostart (`HKCU\…\Run`), opt-in e removida ao desativar.
 - **Rede/telemetria:** nenhuma. "Verificar atualizações" abre a página de releases no navegador.
 

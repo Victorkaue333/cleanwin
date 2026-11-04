@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, SectionTitle } from "@/components/ui/Card";
@@ -9,6 +9,7 @@ import { Toggle } from "@/components/ui/Toggle";
 import { useErrorMessage } from "@/hooks/useErrorMessage";
 import { useT, useTDynamic } from "@/hooks/useT";
 import { LANGUAGES } from "@/i18n";
+import { TRAY_REQUERY_DELAY_MS, TRAY_REQUERY_MAX, trayToggleState } from "@/lib/onboarding";
 import * as ipc from "@/services/ipc";
 import { useCleaningStore } from "@/stores/cleaningStore";
 import { useSettingsStore, type SettingsPatch } from "@/stores/settingsStore";
@@ -43,6 +44,50 @@ export function SettingsPage() {
       .then((enabled) => setAutostartMismatch(enabled !== settings.launchAtStartup))
       .catch(() => setAutostartMismatch(false));
   }, [settings.launchAtStartup]);
+
+  // Tray icon pin: `null` = Explorer has not registered the icon yet (re-query a few times).
+  const [trayPromoted, setTrayPromoted] = useState<boolean | null>(null);
+  const [traySaving, setTraySaving] = useState(false);
+  const requeries = useRef(0);
+
+  const queryTray = useCallback(() => {
+    ipc
+      .getTrayIconPromoted()
+      .then(setTrayPromoted)
+      .catch(() => setTrayPromoted(null));
+  }, []);
+
+  useEffect(() => {
+    queryTray();
+  }, [queryTray]);
+
+  useEffect(() => {
+    if (trayPromoted !== null || requeries.current >= TRAY_REQUERY_MAX) return;
+    const timer = setTimeout(() => {
+      requeries.current += 1;
+      queryTray();
+    }, TRAY_REQUERY_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [trayPromoted, queryTray]);
+
+  async function changeTray(enabled: boolean) {
+    setTraySaving(true);
+    try {
+      const actual = await ipc.setTrayIconPromoted(enabled);
+      setTrayPromoted(actual);
+      // The backend persisted the choice; mirror it so full-object saves keep it.
+      useSettingsStore.setState((s) => ({ settings: { ...s.settings, trayIconPromoted: enabled } }));
+      toast.success(t("settings.saved"));
+    } catch (err) {
+      const { title, detail } = describe(err);
+      toast.danger(title, detail);
+      queryTray();
+    } finally {
+      setTraySaving(false);
+    }
+  }
+
+  const trayState = trayToggleState(trayPromoted);
 
   async function save(patch: SettingsPatch) {
     try {
@@ -129,6 +174,20 @@ export function SettingsPage() {
             className="w-52"
           />
         </Row>
+        <Toggle
+          checked={trayState.checked}
+          onChange={(v) => void changeTray(v)}
+          disabled={trayState.disabled || traySaving}
+          label={t("settings.trayIconPromoted")}
+          description={
+            <>
+              {t("settings.trayIconPromotedDesc")}
+              {trayState.pending && (
+                <span className="mt-1 block text-warning">{t("settings.trayIconPending")}</span>
+              )}
+            </>
+          }
+        />
         <Row label={t("settings.viewMode")}>
           <Select<ViewMode>
             value={settings.viewMode}

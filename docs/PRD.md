@@ -38,7 +38,7 @@ Resumo por módulo (IDs RF-*). Prioridade: **Deve** = obrigatório na v0.1; **De
 | RF-10 | Lixeira: itens/tamanho e esvaziar com confirmação | Deve |
 | RF-11 | Manter tela ativa (ativar/desativar; restaurar ao sair) | Deve |
 | RF-12 | "Limpar a tela": ocultar/restaurar ícones da área de trabalho sem apagar nada | Deve |
-| RF-13 | Bandeja: ícone, abrir, ocultar, estado básico (CPU/RAM), escanear, sair; fechar ≠ encerrar (configurável) | Deve |
+| RF-13 | Bandeja: ícone, abrir, ocultar, estado básico (CPU/RAM), escanear, sair; fechar ≠ encerrar (configurável); opção opt-in "ícone sempre visível na bandeja" (ADR-20) e diálogo de primeira execução | Deve |
 | RF-14 | Configurações persistentes: iniciar com o Windows (opt-in), iniciar minimizado, intervalo, comportamento ao fechar, modo de janela, idioma, métricas na bandeja, reduzir animações, preferências de limpeza | Deve |
 | RF-15 | Instalador para Windows (NSIS, por usuário) | Deve |
 | RF-16 | Duas apresentações: painel compacto (560×680) e janela completa (1120×720) | Deve |

@@ -25,7 +25,7 @@ CleanWin: utilitário de sistema para Windows 10/11 x64 — **Tauri 2 + Rust** (
 - **Dados reais ou "Não disponível".** Nenhuma métrica, tamanho ou contagem inventada fora de fixtures de teste. Skeleton até o primeiro `metrics:update`.
 - **Limpeza:** só o catálogo de `src-tauri/src/system/cleaner.rs` (`categories()`), raízes validadas por `is_safe_root`, scan nunca exclui, exclusão revalida arquivo regular + caminho canônico dentro da raiz, nunca remove a raiz, nunca segue junções/symlinks, arquivos em uso são reportados. A interface envia **ids de categoria + id de sessão**, nunca caminhos. Nova categoria = raiz segura + testes + texto na UI.
 - **Processos:** confirmação na UI **e** `protection_reason` no Rust (PID 0/4, o próprio app, lista `PROTECTED_NAMES`). Nunca encerrar automaticamente. Nada de "otimização de RAM".
-- **Privilégio:** nunca pedir elevação global, nunca instalar serviço/driver, nunca desativar segurança do Windows, nunca escrever no Registro além do autostart opt-in (`tauri-plugin-autostart`).
+- **Privilégio:** nunca pedir elevação global, nunca instalar serviço/driver, nunca desativar segurança do Windows, nunca escrever no Registro além de exatamente duas escritas opt-in, por usuário (HKCU) e reversíveis: a entrada de autostart (`tauri-plugin-autostart`) e `Control Panel\NotifyIconSettings\<id>\IsPromoted` do próprio ícone da bandeja (`system/tray_icon_settings.rs`, ADR-20).
 - **IPC:** comando novo = validação no Rust, erro via `AppError { code, message }`, entrada em [`docs/API.md`](docs/API.md) e tipo em `src/types/ipc.ts`. `open_external` só `http(s)`; `reveal_path` só caminhos reportados pelo app.
 - Sem scripts externos, sem downloads de executáveis, sem rede (exceto o link de releases aberto no navegador pelo usuário).
 
@@ -33,7 +33,7 @@ CleanWin: utilitário de sistema para Windows 10/11 x64 — **Tauri 2 + Rust** (
 
 | O quê | Onde |
 |-------|------|
-| Comandos IPC (24) | `src-tauri/src/commands/mod.rs` · registrados em `src-tauri/src/lib.rs` |
+| Comandos IPC (26) | `src-tauri/src/commands/mod.rs` · registrados em `src-tauri/src/lib.rs` |
 | DTOs (camelCase) | `src-tauri/src/models/mod.rs` ↔ `src/types/ipc.ts` |
 | Métricas (thread + evento `metrics:update`) | `src-tauri/src/system/metrics.rs` · `src-tauri/src/services/metrics_loop.rs` |
 | Limpeza | `src-tauri/src/system/cleaner.rs` |

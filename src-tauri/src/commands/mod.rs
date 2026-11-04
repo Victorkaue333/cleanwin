@@ -18,7 +18,7 @@ use crate::models::*;
 use crate::services::settings::{Settings, ViewMode};
 use crate::services::{window, AppState};
 use crate::system::cleaner::{self, ScanOptions, ScanSession};
-use crate::system::{processes, recycle_bin};
+use crate::system::{processes, recycle_bin, tray_icon_settings};
 
 pub const REPOSITORY_URL: &str = "https://github.com/Victorkaue333/cleanwin";
 
@@ -466,6 +466,28 @@ pub fn get_autostart_enabled(app: AppHandle) -> AppResult<bool> {
     app.autolaunch()
         .is_enabled()
         .map_err(|e| AppError::Internal(format!("autostart: {e}")))
+}
+
+/// Whether the tray icon is pinned in the notification area. `None` while
+/// Explorer has not registered the icon yet.
+#[tauri::command]
+pub async fn get_tray_icon_promoted() -> AppResult<Option<bool>> {
+    tauri::async_runtime::spawn_blocking(tray_icon_settings::is_promoted)
+        .await
+        .map_err(|e| AppError::Internal(e.to_string()))?
+}
+
+/// Pin/unpin the tray icon (per-user `IsPromoted` value) and remember the choice.
+#[tauri::command]
+pub async fn set_tray_icon_promoted(state: State<'_, AppState>, enabled: bool) -> AppResult<bool> {
+    let actual =
+        tauri::async_runtime::spawn_blocking(move || tray_icon_settings::set_promoted(enabled))
+            .await
+            .map_err(|e| AppError::Internal(e.to_string()))??;
+    state
+        .settings
+        .update(|s| s.tray_icon_promoted = Some(enabled))?;
+    Ok(actual)
 }
 
 // ---------------------------------------------------------------------------

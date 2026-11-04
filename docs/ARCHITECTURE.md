@@ -14,7 +14,7 @@ Princípio norteador: **o Rust é o único que toca o sistema; a interface forma
 ```mermaid
 flowchart TD
     user["Usuário — Windows 10/11 x64"] --> ui["Interface — React 19 + TS (WebView2)<br/>painel compacto 560×680 · janela completa 1120×720"]
-    ui -->|"invoke · 24 comandos"| core["Núcleo Rust — Tauri 2<br/>commands · services · system"]
+    ui -->|"invoke · 26 comandos"| core["Núcleo Rust — Tauri 2<br/>commands · services · system"]
     core -->|"metrics:update · metrics:error · navigate"| ui
     core -->|"Channel&lt;ScanEvent&gt; · Channel&lt;CleanEvent&gt;"| ui
     core --> loop["metrics_loop — thread própria<br/>MetricsCollector (sysinfo + Win32)"]
@@ -33,7 +33,7 @@ flowchart TD
 | Camada | Responsabilidade | Neste projeto |
 |--------|------------------|---------------|
 | **Interface** | Apresentação, navegação, formatação, confirmações, histórico para gráficos. | `src/` — React 19, TypeScript estrito, Vite 8, Tailwind 4 com tokens de `public/assets/design-tokens`, Zustand (um store por domínio: métricas, processos, limpeza, configurações, UI, utilidades, toasts), lucide-react, sparklines em SVG, i18n pt-BR/en-US. **Nunca** toca sistema de arquivos, processos ou Registro; nunca inventa dado (skeleton até o primeiro snapshot). |
-| **Comandos IPC** | Superfície de ataque controlada. | `src-tauri/src/commands/mod.rs` — 24 comandos `#[tauri::command]`, validação de entrada, trabalho pesado em `spawn_blocking`, progresso por `Channel`. Permissões em `capabilities/default.json` (só a janela `main`). |
+| **Comandos IPC** | Superfície de ataque controlada. | `src-tauri/src/commands/mod.rs` — 26 comandos `#[tauri::command]`, validação de entrada, trabalho pesado em `spawn_blocking`, progresso por `Channel`. Permissões em `capabilities/default.json` (só a janela `main`). |
 | **Serviços** | Estado gerenciado e ciclo de vida. | `services/` — `AppState` (settings, métricas, cleaner, keep-awake, desktop, flags), `metrics_loop` (thread + evento), `tray` (menu e status), `window` (modos, mostrar/ocultar, saída com cleanup), `settings` (JSON atômico). |
 | **Sistema** | Toda chamada nativa. | `system/` — `metrics` (sysinfo + `GetSystemPowerStatus` + `InternetGetConnectedState` + NVML), `processes` (`OpenProcess`/`TerminateProcess` + protegidos), `cleaner` (catálogo, `is_safe_root`, walk sem reparse points, delete revalidado), `recycle_bin`, `power` (thread dedicada para `SetThreadExecutionState`), `desktop` (`SHELLDLL_DefView` + `WM_COMMAND 0x7402`). |
 | **Persistência** | Preferências e logs. | `settings.json` com escrita atômica em `app_config_dir`; logs rotacionados (2 MB) em `app_log_dir`. Sessão de scan em memória (30 min, uso único). Não há banco de dados — [`DATABASE.md`](DATABASE.md). |

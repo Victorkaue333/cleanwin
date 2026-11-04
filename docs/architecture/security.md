@@ -7,7 +7,8 @@ CleanWin performs sensitive operations (deleting files, terminating processes, c
 - The app runs as the current user. No manifest-level elevation, no service, no driver.
 - The installer is per-user (`nsis.installMode = currentUser`): no UAC prompt, no `Program Files` write.
 - Locations that need elevation (`C:\Windows\Temp`, `ProgramData\…\WER`) are scanned with whatever access the user has; denied entries are counted (`accessDeniedCount`, `partial: true`) and the UI says the result is partial. CleanWin never asks for elevation to finish a clean.
-- Autostart is opt-in and writes a single `HKCU\…\Run` value through the official Tauri plugin. It is the only registry write in the app and it is removed when the setting is turned off.
+- Autostart is opt-in and writes a single `HKCU\…\Run` value through the official Tauri plugin. It is removed when the setting is turned off.
+- The only other registry write is the opt-in "always show the tray icon" preference: `HKCU\Control Panel\NotifyIconSettings\<id>\IsPromoted` (DWORD 1), written only for the entry whose `ExecutablePath` is this exe and removed again when the option is turned off ([ADR-20](../DECISIONS.md)). These two per-user, opt-in, reversible writes are the complete list.
 
 ## IPC surface
 

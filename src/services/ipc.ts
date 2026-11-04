@@ -94,6 +94,9 @@ export const getSettings = () => call<Settings>("get_settings");
 export const updateSettings = (settings: Settings) =>
   call<Settings>("update_settings", { settings });
 export const getAutostartEnabled = () => call<boolean>("get_autostart_enabled");
+export const getTrayIconPromoted = () => call<boolean | null>("get_tray_icon_promoted");
+export const setTrayIconPromoted = (enabled: boolean) =>
+  call<boolean>("set_tray_icon_promoted", { enabled });
 
 // Events -----------------------------------------------------------------------
 export function onMetricsUpdate(handler: (snapshot: SystemSnapshot) => void): Promise<UnlistenFn> {

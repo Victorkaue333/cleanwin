@@ -13,7 +13,9 @@ Tipos usados: Adicionado, Alterado, Corrigido, Removido, Depreciado, Segurança.
 
 ## [Não publicado][Não publicado]
 
-_Nada ainda._
+### Adicionado
+
+- **Ícone sempre visível na bandeja (opt-in)** — `system/tray_icon_settings.rs` grava/remove `IsPromoted` em `HKCU\Control Panel\NotifyIconSettings\<id>` do próprio exe; comandos `get_tray_icon_promoted` / `set_tray_icon_promoted` (26 comandos); reaplicado na partida; interruptor em Configurações › Janela; novos campos `trayIconPromoted` e `onboardingShown` em `settings.json`; diálogo de primeira execução (ícone na bandeja e autostart minimizado). Ver [ADR-20](DECISIONS.md).
 
 ## [0.1.0][0.1.0] — 2026-11-04
 

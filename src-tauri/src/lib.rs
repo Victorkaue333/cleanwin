@@ -25,6 +25,29 @@ use system::power::KeepAwake;
 /// Command-line flag passed by the autostart entry.
 pub const MINIMIZED_FLAG: &str = "--minimized";
 
+/// Explorer registers the tray icon a moment after it appears, so retry for a
+/// while. Keeps the "always visible" choice across updates and reinstalls.
+fn reapply_tray_promotion() {
+    let spawned = std::thread::Builder::new()
+        .name("tray-promote".into())
+        .spawn(|| {
+            for attempt in 1..=30u32 {
+                match system::tray_icon_settings::set_promoted(true) {
+                    Ok(_) => {
+                        log::info!("tray icon promoted (attempt {attempt})");
+                        return;
+                    }
+                    Err(err) => log::debug!("tray icon promotion attempt {attempt}: {err}"),
+                }
+                std::thread::sleep(std::time::Duration::from_millis(500));
+            }
+            log::info!("tray icon promotion gave up after 15 s");
+        });
+    if let Err(err) = spawned {
+        log::warn!("could not start tray promotion thread: {err}");
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let launched_minimized = std::env::args().any(|a| a == MINIMIZED_FLAG);
@@ -79,6 +102,9 @@ pub fn run() {
             });
 
             tray::build(app.handle(), &current.language)?;
+            if current.tray_icon_promoted == Some(true) {
+                reapply_tray_promotion();
+            }
             metrics_loop::spawn(app.handle().clone(), metrics);
             Ok(())
         })
@@ -126,6 +152,8 @@ pub fn run() {
             commands::get_settings,
             commands::update_settings,
             commands::get_autostart_enabled,
+            commands::get_tray_icon_promoted,
+            commands::set_tray_icon_promoted,
         ])
         .build(tauri::generate_context!())
         .expect("error while building CleanWin")

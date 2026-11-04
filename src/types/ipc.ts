@@ -283,6 +283,9 @@ export interface Settings {
   showTrayMetrics: boolean;
   reduceMotion: boolean;
   cleaning: CleaningSettings;
+  /** `null` = the user never chose. */
+  trayIconPromoted: boolean | null;
+  onboardingShown: boolean;
 }
 
 export interface AppInfo {

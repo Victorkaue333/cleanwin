@@ -28,6 +28,7 @@ Registro das decisões técnicas do projeto (ADRs). Cada decisão é uma entrada
 | ADR-17 | 04/nov/2026 | Sem biblioteca de gráficos (sparklines em SVG) | Aceita |
 | ADR-18 | 04/nov/2026 | Identidade visual exclusivamente de `public/assets` | Aceita (decisão do mantenedor) |
 | ADR-19 | 04/nov/2026 | Sem auto-update na v0.1; "Verificar atualizações" abre a página de releases | Aceita |
+| ADR-20 | 04/nov/2026 | Preferência de ícone na bandeja via NotifyIconSettings (HKCU, opt-in, reversível) | Aceita |
 
 ---
 
@@ -322,3 +323,25 @@ Logos, ícones e cores vêm só de `public/assets`; o mockup é reproduzido com 
 ### Decisão
 
 "Verificar atualizações" abre a página de releases no navegador via `open_external`. `tauri-plugin-updater` entra com assinatura de código e releases assinadas (B1/B2), evitando um endpoint e uma chave que ainda não existem.
+
+## ADR-20 — Preferência de ícone na bandeja via NotifyIconSettings (HKCU, opt-in, reversível)
+
+- **Data:** 04/nov/2026 · **Status:** Aceita
+
+### Contexto
+
+O Windows 11 esconde ícones novos no menu "^" da bandeja. Para um utilitário de monitoramento isso torna o ícone (e as métricas de CPU/RAM no tooltip) praticamente invisível. O Windows guarda a preferência por usuário em `HKCU\Control Panel\NotifyIconSettings\<id>` (`ExecutablePath`, `InitialTooltip`, `IsPromoted`); `IsPromoted=1` fixa o ícone na barra. A chave é criada pelo Explorer na primeira vez que o ícone aparece.
+
+### Decisão
+
+Opção **opt-in** ("Ícone sempre visível na bandeja", com diálogo de primeira execução e interruptor em Configurações). `system/tray_icon_settings.rs` localiza a subchave cujo `ExecutablePath` é o próprio executável (comparação canônica, sem diferenciar maiúsculas) e grava `IsPromoted=1`; desligar remove o valor. Comandos `get_tray_icon_promoted` / `set_tray_icon_promoted`; a escolha fica em `settings.json` (`trayIconPromoted`) e é reaplicada na partida (tentativas a cada 500 ms por até 15 s, pois o Explorer pode demorar a registrar o ícone). É, junto com a entrada de autostart, **uma das duas únicas escritas no Registro** do app — ambas por usuário, opt-in e reversíveis.
+
+### Alternativas
+
+- **Não fazer nada / só documentar:** o usuário teria de arrastar o ícone manualmente; rejeitado pela má descoberta.
+- **Promover sem perguntar:** viola o princípio de não alterar o sistema sem consentimento.
+- **API de shell (`ITrayNotify`, COM não documentada):** instável entre builds do Windows.
+
+### Consequências
+
+Depende de um comportamento não documentado do Windows 10/11 (a chave pode mudar); falha de forma segura (`not_found`/`unsupported`, a UI informa e a opção segue disponível em Configurações). Reinstalações mantêm a preferência porque o caminho do exe é estável. A superfície IPC passa a 26 comandos.
