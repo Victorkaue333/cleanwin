@@ -81,3 +81,9 @@ Resumo do que foi feito · funcionalidades concluídas / parciais / não verific
 - **Implementação, documentação, testes, refactors, tarefas simples → modelo mais barato** (Sonnet ou Haiku; Opus só quando Sonnet falhar). Ao delegar com o Agent tool, passar `model: "sonnet"` ou `"haiku"` explicitamente; **não** usar `subagent_type: "fork"` (herda o contexto inteiro e roda no modelo caro).
 - Fluxo esperado numa sessão: o modelo caro escreve o plano/brief curto → subagentes baratos executam → o caro só volta para revisar o que é arquitetural ou para decidir um impasse.
 - Manter turnos enxutos: poucas chamadas de ferramenta, sem reler arquivos já conhecidos, sem relatórios intermediários longos.
+
+## 10. Distribuição (regra do mantenedor)
+
+- O CleanWin é distribuído **sempre como instalador empacotado** (`CleanWin_<versão>_x64-setup.exe`, NSIS por usuário), com fluxo igual ao de qualquer software: baixar o setup → executar → app instalado com atalhos no Menu Iniciar/área de trabalho e desinstalador em Programas e Recursos. Nunca distribuir `.exe` solto, `.zip` ou build de `target/` para usuários.
+- O setup para download é o **asset da GitHub Release** gerado pelo CI na tag `v*` (`.github/workflows/ci.yml`), com `SHA256SUMS.txt` e `release/RELEASE_NOTES.md`. O README aponta para `releases/latest/download/<setup>`. O `.exe` não é versionado no repositório.
+- Toda mudança de empacotamento (NSIS, ícones, idioma, modo de instalação) passa por `pnpm tauri build` e é registrada em `docs/DEPLOY.md`.
