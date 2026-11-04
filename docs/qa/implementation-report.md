@@ -63,7 +63,8 @@ Nenhum teste toca pastas reais do usuário (todos usam `tempfile`). Correções 
 | Artefato | Caminho | Tamanho |
 |---|---|---|
 | Executável | `src-tauri\target\release\cleanwin.exe` | ≈ 4,1 MB |
-| Instalador NSIS (por usuário, pt-BR/en) | `src-tauri\target\release\bundle\nsis\CleanWin_0.1.0_x64-setup.exe` | 4,45 MiB |
+| Instalador NSIS (por usuário, pt-BR/en) | `src-tauri	argeteleaseundle
+sis\CleanWin_0.1.0_x64-setup.exe` — **não versionado** (asset do CI na Release; ver pendência 1) | 4,45 MiB |
 
 Perfil release: LTO, `opt-level = "s"`, `strip`, `panic = "abort"`. Instalador não assinado (SmartScreen avisa).
 
