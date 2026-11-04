@@ -1,0 +1,11 @@
+:root {
+  --cw-background: #0D1017;
+  --cw-surface: #171B24;
+  --cw-primary: #FF7417;
+  --cw-success: #46E36B;
+  --cw-warning: #FFBE3D;
+  --cw-danger: #FF4545;
+  --cw-text: #F5F6F8;
+  --cw-textMuted: #A4A8B2;
+  --cw-border: #30343C;
+}
