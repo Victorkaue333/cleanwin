@@ -26,7 +26,7 @@ Contexto de produto (o "porquê"): [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md).
 
 <div align="center">
 
-**[⬇️ Baixar CleanWin 0.1.0 para Windows (x64)](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.0_x64-setup.exe)**
+**[⬇️ Baixar CleanWin 0.1.1 para Windows (x64)](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.1_x64-setup.exe)**
 
 ou veja todas as versões em [Releases](https://github.com/Victorkaue333/cleanwin/releases)
 
@@ -82,7 +82,7 @@ Mais capturas e regras em [`docs/assets/screenshots/`](docs/assets/screenshots/)
 
 | Arquivo | Versão | Plataforma | Observação |
 |---|---|---|---|
-| [**Baixar `CleanWin_0.1.0_x64-setup.exe` (GitHub Releases)**](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.0_x64-setup.exe) | 0.1.0 | Windows 10/11 x64 | Download com um clique (principal); instalador NSIS por usuário (sem UAC); SHA-256 em `SHA256SUMS.txt` na Release |
+| [**Baixar `CleanWin_0.1.1_x64-setup.exe` (GitHub Releases)**](https://github.com/Victorkaue333/cleanwin/releases/latest/download/CleanWin_0.1.1_x64-setup.exe) | 0.1.0 | Windows 10/11 x64 | Download com um clique (principal); instalador NSIS por usuário (sem UAC); SHA-256 em `SHA256SUMS.txt` na Release |
 
 O instalador ainda **não é assinado**: o SmartScreen mostra "editor desconhecido" na primeira execução (Mais informações → Executar assim mesmo) e o **Windows Defender pode acusar um falso positivo** (`Trojan:Win32/Bearfoos!ml`, heurística para binários não assinados) — confira o SHA-256 no `SHA256SUMS.txt` da release e, se quiser, libere em Segurança do Windows › Histórico de proteção. A assinatura de código está planejada para a v0.2 ([`docs/spec/implementacao-v0.2.md`](docs/spec/implementacao-v0.2.md), P1). Ao publicar uma tag `v*`, o workflow de CI anexa o mesmo instalador à página de [Releases](https://github.com/Victorkaue333/cleanwin/releases).
 
@@ -287,7 +287,7 @@ pnpm build          # build de produção do frontend (dist/)
 ```powershell
 pnpm tauri build
 # src-tauri\target\release\cleanwin.exe
-# src-tauri\target\release\bundle\nsis\CleanWin_0.1.0_x64-setup.exe
+# src-tauri\target\release\bundle\nsis\CleanWin_0.1.1_x64-setup.exe
 ```
 
 Detalhes em [`docs/DEPLOY.md`](docs/DEPLOY.md).

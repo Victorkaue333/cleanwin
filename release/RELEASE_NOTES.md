@@ -1,4 +1,4 @@
-# CleanWin 0.1.0 — primeira versão
+# CleanWin 0.1.1 — primeira versão (correção de empacotamento)
 
 Utilitário de sistema open source para Windows 10 e 11, leve e sem telemetria. Inclui:
 
@@ -9,9 +9,15 @@ Utilitário de sistema open source para Windows 10 e 11, leve e sem telemetria. 
 - ícone na bandeja, painel compacto e janela completa;
 - interface em pt-BR e en-US.
 
+## Mudanças na 0.1.1
+
+- Build de release sem *strip* total e com `opt-level = 3`: nesta configuração o Windows Defender **não** disparou a detecção heurística `Bearfoos!ml` que afetava a 0.1.0 (testado com arquivo marcado como download, instalação e execução). Pode variar por máquina até a assinatura de código.
+- Ícone do CleanWin no instalador (antes aparecia o ícone genérico do NSIS).
+- Opção "Ícone sempre visível na bandeja" e diálogo de primeira execução.
+
 ## Como instalar
 
-1. Baixe `CleanWin_0.1.0_x64-setup.exe` nos anexos desta Release.
+1. Baixe `CleanWin_0.1.1_x64-setup.exe` nos anexos desta Release.
 2. Execute o instalador. A instalação é por usuário e não pede UAC (administrador).
 3. O instalador ainda **não é assinado**, então o SmartScreen pode mostrar "editor desconhecido": clique em **Mais informações** e depois em **Executar assim mesmo**.
 
@@ -25,13 +31,13 @@ Utilitário de sistema open source para Windows 10 e 11, leve e sem telemetria. 
 O SHA-256 do instalador está em `SHA256SUMS.txt` (anexo desta Release). Para conferir no PowerShell, na pasta do download:
 
 ```powershell
-Get-FileHash CleanWin_0.1.0_x64-setup.exe -Algorithm SHA256
+Get-FileHash CleanWin_0.1.1_x64-setup.exe -Algorithm SHA256
 ```
 
 Para conferir:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\CleanWin_0.1.0_x64-setup.exe
+Get-FileHash -Algorithm SHA256 .\CleanWin_0.1.1_x64-setup.exe
 ```
 
 ## Limitações conhecidas

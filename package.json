@@ -1,7 +1,7 @@
 {
   "name": "cleanwin",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CleanWin - Seu Windows, sob controle. Lightweight open-source Windows utility for real-time monitoring, safe cleanup and process management.",
   "license": "MIT",
   "type": "module",

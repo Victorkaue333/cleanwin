@@ -79,7 +79,7 @@ Não é necessário o `gh` CLI: publicar é `git push` da branch e da tag; o CI 
 
 ## Falso positivo do Windows Defender
 
-Binários Tauri/Rust **não assinados** disparam a heurística `Trojan:Win32/Bearfoos!ml` em alguns PCs (observado em 04/nov/2026 nesta máquina: instalador e `cleanwin.exe` em quarentena). Por isso o instalador **não é versionado** no repositório (`release/*.exe` ignorado): só existe como asset gerado pelo CI. Mitigação definitiva: assinatura de código (abaixo). Paliativo: enviar o `.exe` como falso positivo em https://www.microsoft.com/wdsi/filesubmission e documentar na release.
+Binários Tauri/Rust **não assinados** disparam a heurística `Trojan:Win32/Bearfoos!ml` em alguns PCs (observado em 04/nov/2026 nesta máquina: instalador e `cleanwin.exe` em quarentena). Por isso o instalador **não é versionado** no repositório (`release/*.exe` ignorado): só existe como asset gerado pelo CI. Mitigação aplicada na 0.1.1: perfil de release com `strip = "debuginfo"` e `opt-level = 3` (binário com símbolos; o build totalmente *stripped* e otimizado para tamanho era o que disparava a heurística neste teste). Mitigação definitiva: assinatura de código (abaixo). Paliativo: enviar o `.exe` como falso positivo em https://www.microsoft.com/wdsi/filesubmission e documentar na release.
 
 ## Assinatura de código (pendente — B1)
 

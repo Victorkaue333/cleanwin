@@ -1,6 +1,6 @@
 [package]
 name = "cleanwin"
-version = "0.1.0"
+version = "0.1.1"
 description = "CleanWin - Seu Windows, sob controle."
 authors = ["Victor Alves"]
 license = "MIT"
@@ -51,6 +51,6 @@ tempfile = "3"
 [profile.release]
 codegen-units = 1
 lto = true
-opt-level = "s"
-strip = true
+opt-level = 3
+strip = "debuginfo"
 panic = "abort"

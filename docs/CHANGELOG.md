@@ -17,6 +17,16 @@ Tipos usados: Adicionado, Alterado, Corrigido, Removido, Depreciado, Segurança.
 
 - **Ícone sempre visível na bandeja (opt-in)** — `system/tray_icon_settings.rs` grava/remove `IsPromoted` em `HKCU\Control Panel\NotifyIconSettings\<id>` do próprio exe; comandos `get_tray_icon_promoted` / `set_tray_icon_promoted` (26 comandos); reaplicado na partida; interruptor em Configurações › Janela; novos campos `trayIconPromoted` e `onboardingShown` em `settings.json`; diálogo de primeira execução (ícone na bandeja e autostart minimizado). Ver [ADR-20](DECISIONS.md).
 
+## [0.1.1] — 2026-11-04
+
+### Corrigido
+- Perfil de release sem `strip` total e com `opt-level = 3`, o que evitou o falso positivo `Trojan:Win32/Bearfoos!ml` do Windows Defender observado na 0.1.0 (binário passa de 4,1 MB para 8,9 MB).
+- Ícone do CleanWin no instalador NSIS (`nsis.installerIcon`).
+
+### Adicionado
+- Opção "Ícone sempre visível na bandeja" (`NotifyIconSettings\IsPromoted`, opt-in) e diálogo de primeira execução (ADR-20).
+- `permissions: contents: write` no CI para publicar a Release.
+
 ## [0.1.0][0.1.0] — 2026-11-04
 
 Primeira entrega completa. Repositório nascido de um `README.md` de uma linha; tudo abaixo foi construído nesta versão.
