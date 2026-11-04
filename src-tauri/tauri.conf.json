@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CleanWin",
+  "version": "0.1.0",
+  "identifier": "com.cleanwin.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "CleanWin",
+        "width": 560,
+        "height": 680,
+        "minWidth": 520,
+        "minHeight": 600,
+        "resizable": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": false,
+        "center": true,
+        "visible": false,
+        "focus": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "category": "Utility",
+    "shortDescription": "Seu Windows, sob controle.",
+    "longDescription": "CleanWin centraliza monitoramento em tempo real, limpeza segura de arquivos temporarios, gerenciamento de processos e utilidades de manutencao do Windows em um unico aplicativo leve.",
+    "publisher": "CleanWin",
+    "copyright": "Copyright (c) 2026 Victor Alves. MIT License.",
+    "licenseFile": "../LICENSE",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": ["PortugueseBR", "English"],
+        "displayLanguageSelector": true,
+        "startMenuFolder": "CleanWin"
+      }
+    }
+  },
+  "plugins": {}
+}
